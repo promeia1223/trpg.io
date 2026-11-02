@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRPG</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #10131b;
+      font-family: Arial, sans-serif;
+    }
+
+
+    .language-btn {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+
+      width: 42px;
+      height: 42px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      padding: 0;
+      margin: 0;
+      line-height: 1;
+
+      background: #292f3d;
+      color: white;
+      border: 1px solid #454b58;
+      border-radius: 5px;
+
+     font-size: 13px;
+     font-weight: bold;
+     cursor: pointer;
+    }
+
+    .language-btn:hover {
+      background: #414958;
+    }
+
+
+    .container {
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      margin-bottom: 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .login-btn {
+      background: #292f3d;
+      color: white;
+    }
+
+    .start-btn {
+      background: #c2a36c;
+      color: #171717;
+    }
+
+    .container button:hover {
+      opacity: 0.85;
+      transform: translateY(-2px);
+    }
+
+    #message {
+      margin-top: 10px;
+      color: #d5b77c;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 언어 변경 -->
+  <button class="language-btn" onclick="changeLanguage()">
+    한
+  </button>
+
+  <div class="container">
+
+    <button class="login-btn" id="loginBtn" onclick="login()">
+      Login
+    </button>
+
+    <button class="start-btn" id="startBtn" onclick="startGame()">
+      Start
+    </button>
+
+    <p id="message"></p>
+
+  </div>
+
+  <script>
+    let currentLanguage = "en";
+
+    function changeLanguage() {
+      const loginBtn = document.getElementById("loginBtn");
+      const startBtn = document.getElementById("startBtn");
+      const languageBtn = document.querySelector(".language-btn");
+      const message = document.getElementById("message");
+
+      if (currentLanguage === "en") {
+        currentLanguage = "ko";
+
+        loginBtn.innerText = "로그인";
+        startBtn.innerText = "시작";
+        languageBtn.innerText = "EN";
+
+        document.documentElement.lang = "ko";
+      } else {
+        currentLanguage = "en";
+
+        loginBtn.innerText = "Login";
+        startBtn.innerText = "Start";
+        languageBtn.innerText = "한";
+
+        document.documentElement.lang = "en";
+      }
+
+      message.innerText = "";
+    }
+
+    
+const DISCORD_CLIENT_ID = "1566733876762644580";
+
+const REDIRECT_URI =
+  "https://promeia1223.github.io/trpg.io/";
+
+function login() {
+  if (DISCORD_CLIENT_ID === "여기에_CLIENT_ID_입력") {
+    alert("Discord Client ID를 먼저 입력해 주세요.");
+    return;
+  }
+
+  const state = crypto.randomUUID();
+
+  sessionStorage.setItem("discord_oauth_state", state);
+
+  const params = new URLSearchParams({
+    client_id: DISCORD_CLIENT_ID,
+    response_type: "code",
+    redirect_uri: REDIRECT_URI,
+    scope: "identify",
+    state: state
+  });
+
+  window.location.href =
+    "https://discord.com/oauth2/authorize?" +
+    params.toString();
+}
+
+
+    function startGame() {
+      document.getElementById("message").innerText =
+        currentLanguage === "en"
+          ? "Ready to begin your adventure!"
+          : "모험을 시작할 준비가 되었습니다!";
+    }
+  </script>
+
+</body>
+</html>
